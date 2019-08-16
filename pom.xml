@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>auto-test</groupId>
+    <artifactId>auto-test</artifactId>
+    <version>1.0-SNAPSHOT</version>
+    <properties>
+        <!--解决编码问题-->
+        <project.build.sourceEncoding>GBK</project.build.sourceEncoding>
+    </properties>
+
+    <dependencies>
+        <!-- https://mvnrepository.com/artifact/org.testng/testng -->
+        <dependency>
+            <groupId>org.testng</groupId>
+            <artifactId>testng</artifactId>
+            <version>6.9.9</version>
+            <!--解决本地maven库有，但是编译运行时找不到jar-->
+            <scope>compile</scope>
+        </dependency>
+        
+             <dependency>
+	        	<groupId>org.seleniumhq.selenium</groupId>
+	        	<artifactId>selenium-java</artifactId>
+	        	<version>3.7.1</version>
+	        	<scope>compile</scope>
+	        </dependency>
+        
+
+		<dependency>
+		    <groupId>org.apache.poi</groupId>
+		    <artifactId>poi-ooxml</artifactId>
+		    <version>4.0.0</version>
+		</dependency>
+	
+			<dependency>
+		  <groupId>org.apache.commons</groupId>
+		  <artifactId>commons-compress</artifactId>
+		  <version>1.17</version>
+		</dependency>
+	
+	        
+
+    </dependencies>
+
+    <build>
+		<sourceDirectory>src</sourceDirectory>
+	
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.6.1</version>
+                <configuration>
+                    <verbose>true</verbose>
+                    <!--在新的虚拟机中开启-->
+                    <fork>true</fork>
+                    <compilerVersion>1.8</compilerVersion>
+                    <encoding>GBK</encoding>
+                    <!--源代码的编译-->
+                    <source>1.8</source>
+                    <target>1.8</target>
+					<!--外部jar包找不到的情况，指定jar包路径-->
+					<compilerArguments>            
+                       <extdirs>lib</extdirs>
+                     </compilerArguments> 
+
+                </configuration>
+
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>2.20</version>
+                <configuration>
+                    <suiteXmlFiles>
+                        <!--可以添加多个xml文件-->
+                        <file>testng.xml</file>
+                    </suiteXmlFiles>
+
+                    <properties>
+                        <property>
+
+                            <!--日志级别,0-10,10最详细-->
+                            <name>surefire.testng.verbose</name>
+                            <value>5</value>
+                            <!--允许并行-->
+                            <name>suitethreadpoolsize</name>
+                            <value>2</value>
+                            
+                        </property>
+                    </properties>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+</project>
