@@ -3,8 +3,13 @@ package config;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.firefox.*;
- 
+
+import executionEngine.DriverScript;
+import utility.Log4j;
+
 import java.util.concurrent.TimeUnit;
+import static executionEngine.DriverScript.OR;
+
  
 public class ActionsKeywords {
  
@@ -15,48 +20,103 @@ public class ActionsKeywords {
      * 等关键字框架快设计完了，我们再来调整，读取配置文件去启动不同测试浏览器和测试地址
      * 这样就不会代码写死这两个参数。
      */
-    public static void openBrowser() {
+    public static void openBrowser(String object) {
         // 这里，我们暂时都写死用firefox来进行自动化测试
     	System.setProperty("webdriver.gecko.driver", "D:\\selenium\\geckodriver.exe");
-  		System.setProperty("webdriver.firefox.bin", "D:\\Program Files\\Mozilla Firefox\\firefox.exe");       
-        driver = new FirefoxDriver();
+    	//关闭gecko日志
+    	System.setProperty(FirefoxDriver.SystemProperty.BROWSER_LOGFILE,"/dev/null");
+  		System.setProperty("webdriver.firefox.bin", "D:\\Program Files\\Mozilla Firefox\\firefox.exe");
+  		try {
+  	        driver = new FirefoxDriver();
+  	    	Log4j.info("打开浏览器完成");
+  		}catch(Exception e) {
+  			Log4j.error("无法打开浏览器" + e.getMessage());
+  			DriverScript.bResult = false;
+  		}
     }
  
-    public static void openUrl() {
-        driver.manage().window().maximize();
-        driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
-        driver.get("http://10.31.0.59/login.html");
- 
+    public static void openUrl(String object) {
+    	try {
+            driver.manage().window().maximize();
+            driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
+            driver.get(Constants.URL);
+        	Log4j.info("打开网址完成");
+    	}catch(Exception e) {
+  			Log4j.error("无法打开网址" + e.getMessage());
+  			DriverScript.bResult = false;
+  		}
     }
  
 
-    public static void input_Username() {
-    	driver.findElement(By.id("user")).sendKeys("13923811009");
+    public static void input_Username(String object) {
+    	try {
+    	driver.findElement(By.id(OR.getProperty(object))).sendKeys(Constants.UserName);
+    	Log4j.info("输入用户名完成");
+    	}catch(Exception e) {
+  			Log4j.error("无法输入用户名" + e.getMessage());
+  			DriverScript.bResult = false;
+  		}
     }
  
-    public static void input_Password() {
-    	driver.findElement(By.id("password")).sendKeys("112232");
+    public static void input_Password(String object) {
+    	try {
+        	driver.findElement(By.id(OR.getProperty(object))).sendKeys(Constants.Password);
+        	Log4j.info("输入密码完成");
+    	}catch(Exception e) {
+  			Log4j.error("无法输入密码" + e.getMessage());
+  			DriverScript.bResult = false;
+  		}
     }
     
-    public static void input_VeifyCode() {
-    	driver.findElement(By.id("verify_code")).sendKeys("123456");
+    public static void input_VeifyCode(String object) {
+    	try {
+        	driver.findElement(By.id(OR.getProperty(object))).sendKeys(Constants.VeifyCode);
+        	Log4j.info("输入验证码完成");
+    	}catch(Exception e) {
+  			Log4j.error("无法输入验证码" + e.getMessage());
+  			DriverScript.bResult = false;
+  		}
     }
     
-    public static void click_ForgetPWD() {
-    	driver.findElement(By.id("f_password")).click();
+    public static void click_ForgetPWD(String object) {
+    	try {
+    		driver.findElement(By.id(OR.getProperty(object))).click();
+    		Log4j.info("点击忘记密码成功");
+    	}catch(Exception e) {
+  			Log4j.error("无法点击忘记密码" + e.getMessage());
+  			DriverScript.bResult = false;
+  		}
     }
     
-    public static void click_ImgVerifyCode() {
-    	driver.findElement(By.id("img_verifycode")).click();
+    public static void click_ImgVerifyCode(String object) {
+    	try {
+    		driver.findElement(By.id(OR.getProperty(object))).click();
+    		Log4j.info("刷新验证码成功");
+    	}catch(Exception e) {
+  			Log4j.error("无法刷新验证码" + e.getMessage());
+  			DriverScript.bResult = false;
+  		}	
     }
  
-    public static void click_Login() {
-    	driver.findElement(By.id("login_btn")).click();
+    public static void click_Login(String object) {
+    	try {
+        	driver.findElement(By.id(OR.getProperty(object))).click();
+        	Log4j.info("点击登录成功");
+    	}catch(Exception e) {
+  			Log4j.error("无法点击登录" + e.getMessage());
+  			DriverScript.bResult = false;
+  		}	
     }
  
     // 关闭浏览器并退出
-    public static void closeBrowser() {
-        driver.quit();
+    public static void closeBrowser(String object) {
+    	try {
+            driver.quit();
+            Log4j.info("关闭浏览器成功");
+    	}catch(Exception e) {
+  			Log4j.error("无法关闭浏览器" + e.getMessage());
+  			DriverScript.bResult = false;
+  		}	
     }
     
    
